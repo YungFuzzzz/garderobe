@@ -1,0 +1,15 @@
+{
+    "name": "faisalcollinet/wardrobe",
+    "autoload": {
+        "psr-4": {
+            "Faisalcollinet\\Wardrobe\\": "classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "FUZZZ",
+            "email": "147380081+YungFuzzzz@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
