@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Haal de firstname uit de sessie
 $firstname = $_SESSION['firstname'];
 ?>
 
@@ -20,7 +19,7 @@ $firstname = $_SESSION['firstname'];
 </head>
 <body>
     <div class="dashboard-container">
-        <h2>Welcome, <?php echo htmlspecialchars($firstname); ?>!</h2> <!-- Gebruik de firstname hier -->
+        <h2>Welcome, <?php echo htmlspecialchars($firstname); ?>!</h2>
         <p>Here you can manage the website content, users, and other settings.</p>
         <div class="logout">
             <a href="logout.php">Logout</a>
