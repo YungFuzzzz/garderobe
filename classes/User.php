@@ -50,7 +50,8 @@ class User {
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role']; // Stel de rol in in de sessie
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['firstname'] = $user['firstname']; // Voeg de firstname toe aan de sessie
 
             // Redirect naar de juiste pagina afhankelijk van de rol
             if ($_SESSION['role'] == 'admin') {

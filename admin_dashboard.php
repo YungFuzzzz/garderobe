@@ -1,12 +1,13 @@
 <?php
 session_start();
 
-// Controleer of de gebruiker is ingelogd en een admin is
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    // Als de gebruiker niet is ingelogd of geen admin is, stuur hem dan terug naar de loginpagina
     header('Location: login.php');
     exit();
 }
+
+// Haal de firstname uit de sessie
+$firstname = $_SESSION['firstname'];
 ?>
 
 <!DOCTYPE html>
@@ -19,14 +20,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 </head>
 <body>
     <div class="dashboard-container">
-        <h2>Welcome Admin</h2>
+        <h2>Welcome, <?php echo htmlspecialchars($firstname); ?>!</h2> <!-- Gebruik de firstname hier -->
         <p>Here you can manage the website content, users, and other settings.</p>
-        
-        <div class="actions">
-            <a href="manage_users.php">Manage Users</a>
-            <a href="settings.php">Settings</a>
-        </div>
-
         <div class="logout">
             <a href="logout.php">Logout</a>
         </div>

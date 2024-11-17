@@ -1,12 +1,13 @@
 <?php
 session_start();
 
-// Controleer of de gebruiker is ingelogd en een klant is
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
-    // Als de gebruiker niet is ingelogd of geen klant is, stuur hem dan terug naar de loginpagina
     header('Location: login.php');
     exit();
 }
+
+// Haal de firstname uit de sessie
+$firstname = $_SESSION['firstname'];
 ?>
 
 <!DOCTYPE html>
@@ -19,14 +20,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
 </head>
 <body>
     <div class="dashboard-container">
-        <h2>Welcome Customer</h2>
+        <h2>Welcome, <?php echo htmlspecialchars($firstname); ?>!</h2> <!-- Gebruik de firstname hier -->
         <p>Here you can view your account information, orders, and more.</p>
-        
-        <div class="actions">
-            <a href="account_settings.php">Account Settings</a>
-            <a href="orders.php">Your Orders</a>
-        </div>
-
         <div class="logout">
             <a href="logout.php">Logout</a>
         </div>
