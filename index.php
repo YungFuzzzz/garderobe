@@ -7,6 +7,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
 }
 
 $firstname = $_SESSION['firstname'];
+
+// Include Clothing class to fetch items
+require_once __DIR__ . '/classes/Clothing.php';
+$clothingItems = Faisalcollinet\Wardrobe\Clothing::getAllClothing();
 ?>
 
 <!DOCTYPE html>
@@ -24,11 +28,16 @@ $firstname = $_SESSION['firstname'];
         
         <div class="clothing-items">
             <h3>Our Latest Collection</h3>
-            <div class="item">
-                <p>Item 1</p>
-            </div>
-            <div class="item">
-                <p>Item 2</p>
+            <div class="items-grid">
+                <?php foreach ($clothingItems as $item): ?>
+                    <div class="item">
+                        <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name'] ?? ''); ?>" class="item-image">
+                        <h4><?php echo htmlspecialchars($item['name'] ?? ''); ?></h4>
+                        <p><?php echo htmlspecialchars($item['description'] ?? ''); ?></p>
+                        <p>Size: <?php echo htmlspecialchars($item['size'] ?? ''); ?></p>
+                        <p>€<?php echo htmlspecialchars($item['price'] ?? ''); ?></p>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
