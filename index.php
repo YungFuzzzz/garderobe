@@ -1,22 +1,24 @@
 <?php
 session_start();
 
-// Als de gebruiker niet ingelogd is, doorsturen naar de login pagina
+// Als de gebruiker niet ingelogd is of geen klant is, doorsturen naar de login pagina
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
     header('Location: login.php');
     exit();
 }
 
+// Verkrijg de gebruikersinformatie uit de sessie
 $firstname = $_SESSION['firstname'];
 $user_id = $_SESSION['user_id'];
 
-// Include de Clothing class om items op te halen
+// Include de benodigde klassen
 require_once __DIR__ . '/classes/Clothing.php';
+require_once __DIR__ . '/classes/User.php';
 
-// Haal alle merken op uit de database
+// Verkrijg alle merken
 $brands = Faisalcollinet\Wardrobe\Clothing::getAllBrands();
 
-// Controleer of er een merk is geselecteerd en haal de kledingitems op op basis van dat merk
+// Verkrijg de kledingitems op basis van het geselecteerde merk
 if (isset($_POST['brand']) && !empty($_POST['brand'])) {
     $brand = $_POST['brand'];
     $clothingItems = Faisalcollinet\Wardrobe\Clothing::getAllClothingByBrand($brand);
@@ -24,11 +26,10 @@ if (isset($_POST['brand']) && !empty($_POST['brand'])) {
     $clothingItems = Faisalcollinet\Wardrobe\Clothing::getAllClothing();
 }
 
-// Include de User class om het saldo van de gebruiker op te halen
-require_once __DIR__ . '/classes/User.php';
+// Verkrijg het gebruikerssaldo
 $userBalance = Faisalcollinet\Wardrobe\User::getUserBalance($user_id);
 
-// Haal het aantal items in de winkelwagen op
+// Verkrijg het aantal items in de winkelwagen
 $cartItemCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 ?>
 

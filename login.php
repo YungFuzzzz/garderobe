@@ -1,18 +1,25 @@
 <?php
 require_once 'vendor/autoload.php';
+require_once 'classes/Db.php'; // Verbind de PDO-connectie
 
 use Faisalcollinet\Wardrobe\User;
 
 $errorMessage = '';
+
+// Start de sessie aan het begin van het bestand
+session_start();
 
 // Als er een POST-verzoek is, probeer in te loggen
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // Debug: controleer ingevulde waarden
+    var_dump($email, $password); // Debug: kijk wat de ingevulde waarden zijn
+
     // Probeer de login-methode aan te roepen
     if (User::login($email, $password)) {
-        // Login succesvol, redirect gebeurt al in de login-methode
+        // Login succesvol, maar de redirect gebeurt al in de login-methode
         exit(); // Stop verder uitvoeren van de code
     } else {
         // Foutmelding als inloggen niet lukt
@@ -47,6 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     or <a href="signup.php">create an account.</a>
                 </div>
             </form>
+            <?php if (!empty($errorMessage)): ?>
+                <div class="error-message">
+                    <?php echo htmlspecialchars($errorMessage); ?>
+                </div>
+            <?php endif; ?>
         </div>
         <div class="flex-child image-container">
             <img src="./assets/login.webp" alt="Login image">

@@ -1,5 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
+require_once 'classes/Db.php'; // Verbind de PDO-connectie
 
 use Faisalcollinet\Wardrobe\User;
 
@@ -12,13 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     if (User::signup($firstname, $lastname, $email, $password)) {
+        // Redirect naar loginpagina na succesvolle registratie
         header('Location: login.php');
         exit();
     } else {
         $errorMessage = "This account already exists.";
     }
 }
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

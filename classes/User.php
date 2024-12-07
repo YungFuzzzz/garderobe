@@ -3,84 +3,99 @@ namespace Faisalcollinet\Wardrobe;
 
 use PDO;
 
-class User {
+class User
+{
+    // De methode voor inloggen
+    public static function login($email, $password)
+    {
+        session_start(); // Start de sessie
 
-    public static function signup($firstname, $lastname, $email, $password) {
-        $pdo = Db::getConnection();
-        
-        // Controleer of het e-mailadres al bestaat
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        
-        if ($stmt->rowCount() > 0) {
-            return false; // Als het e-mailadres al bestaat, geef een foutmelding
-        }
-
-        // Versleutel het wachtwoord
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Voeg de gebruiker toe inclusief de 1000 digitale valuta
-        $sql = "INSERT INTO users (firstname, lastname, email, password, role, currency) 
-                VALUES (:firstname, :lastname, :email, :password, 'customer', 1000)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':firstname', $firstname);
-        $stmt->bindParam(':lastname', $lastname);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hashedPassword);
-
-        // Voer de query uit
-        if ($stmt->execute()) {
-            return true; // Als de registratie succesvol is, return true
-        } else {
-            return false; // Als er iets misgaat, return false
-        }
-    }
-
-    public static function login($email, $password) {
+        // Verkrijg de databaseverbinding
         $pdo = Db::getConnection();
 
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-
+        // Zoek de gebruiker op basis van het ingevoerde email
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Controleer of de gebruiker bestaat en het wachtwoord klopt
         if ($user && password_verify($password, $user['password'])) {
-            session_start();
+            // Zet de sessievariabelen voor de gebruiker
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role'];
             $_SESSION['firstname'] = $user['firstname'];
+            $_SESSION['lastname'] = $user['lastname'];
+            $_SESSION['role'] = $user['role'];  // Sla de rol van de gebruiker op in de sessie
 
+            // Redirect naar de juiste pagina op basis van de rol
             if ($_SESSION['role'] == 'admin') {
                 header('Location: admin_dashboard.php');
             } else {
                 header('Location: index.php');
             }
-            exit();
-        } else {
-            return false;
+            exit(); // Stop verder uitvoeren van de code
         }
+
+        return false; // Return false als login mislukt
     }
 
-    // Methode om het saldo van de gebruiker op te halen
-    public static function getUserBalance($userId) {
+    // De methode voor registratie
+    public static function signup($firstname, $lastname, $email, $password)
+    {
         $pdo = Db::getConnection();
 
-        // Haal het saldo op voor de gebruiker uit de database
-        $sql = "SELECT currency FROM users WHERE id = :user_id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-        $stmt->execute();
+        // Controleer of het emailadres al bestaat
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Haal het resultaat op
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($existingUser) {
+            return false; // Account bestaat al
+        }
 
-        // Als de gebruiker wordt gevonden, retourneer het saldo, anders 0
-        return $user ? (float)$user['currency'] : 0.0;
+        // Voeg de gebruiker toe aan de database
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("INSERT INTO users (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)");
+        $stmt->execute(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'password' => $hashedPassword]);
+
+        return true; // Account succesvol aangemaakt
+    }
+
+    // Haal het saldo (currency) van de gebruiker op
+    public static function getUserBalance($userId)
+    {
+        $pdo = Db::getConnection();
+
+        // Haal de currency op uit de database voor de gebruiker
+        $stmt = $pdo->prepare("SELECT currency FROM users WHERE id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Return de currency of 0 als er geen currency is
+        return $result ? $result['currency'] : 0;
+    }
+
+    // Methode om de currency van de gebruiker bij te werken
+    public static function updateUserBalance($userId, $newBalance)
+    {
+        $pdo = Db::getConnection();
+
+        // Update de currency van de gebruiker in de database
+        $stmt = $pdo->prepare("UPDATE users SET currency = :currency WHERE id = :user_id");
+        $stmt->execute(['currency' => $newBalance, 'user_id' => $userId]);
+
+        return true; // Return true als de update geslaagd is
+    }
+
+    // Haal andere gegevens van de gebruiker op (optioneel)
+    public static function getUserDetails($userId)
+    {
+        $pdo = Db::getConnection();
+
+        // Haal de gegevens van de gebruiker uit de database
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>
