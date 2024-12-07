@@ -1,6 +1,5 @@
 <?php
 
-// Functie om het .env bestand in te laden
 function loadEnv($path)
 {
     if (!file_exists($path)) {
