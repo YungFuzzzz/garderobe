@@ -56,19 +56,19 @@ if (!$item || !is_array($item)) {
     <div class="product-detail">
         <!-- Productafbeelding aan de linkerzijde -->
         <div class="product-image">
-            <img src="<?php echo htmlspecialchars($item['image'] ?? ''); ?>" alt="<?php echo htmlspecialchars($item['name'] ?? ''); ?>">
+            <!-- Controleer of de afbeelding URL leeg is en geef een fallback afbeelding -->
+            <img src="<?php echo htmlspecialchars($item['image'] ?? 'default-image.jpg'); ?>" alt="<?php echo htmlspecialchars($item['name'] ?? ''); ?>">
         </div>
         <!-- Productinformatie aan de rechterzijde -->
         <div class="product-info">
             <h1><?php echo htmlspecialchars($item['brand'] ?? ''); ?></h1>
             <h2><?php echo nl2br(htmlspecialchars($item['description'] ?? '')); ?></h2>
+            <p><?php echo nl2br(htmlspecialchars($item['additional_description'] ?? '')); ?></p>
             <div class="product-details">
                 <p><strong>Category:</strong> <?php echo htmlspecialchars($item['category'] ?? ''); ?></p>
                 <p><strong>Size:</strong> <?php echo htmlspecialchars($item['size'] ?? ''); ?></p>
                 <p class="price">€<?php echo number_format($item['price'], 2, ',', '.'); ?></p>
             </div>
-
-            
 
             <!-- Voeg toe aan winkelwagen -->
             <form action="add_to_cart.php" method="POST">
