@@ -13,7 +13,8 @@ class Db
     {
         if (self::$conn === null) {
             try {
-                self::$conn = new PDO('mysql:host=localhost;dbname=garderobe', 'root', 'root');
+                // Gebruik hier je Railway MySQL verbinding URL
+                self::$conn = new PDO('mysql:host=autorack.proxy.rlwy.net;port=25993;dbname=railway', 'root', 'rEMenFWNlLqJVQnbFQDCAeYrMuqaiYQB');
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 die("Database connection failed: " . $e->getMessage());
