@@ -1,0 +1,18 @@
+# Node modules (als je met Node werkt)
+node_modules/
+
+# Composer dependency folder
+/vendor/
+
+# .env file voor gevoelige gegevens
+.env
+
+# IDE-bestanden
+.idea/
+
+# Bestanden die door OS worden gegenereerd
+.DS_Store
+Thumbs.db
+
+# Logbestanden
+*.log

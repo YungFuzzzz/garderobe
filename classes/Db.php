@@ -4,6 +4,7 @@ namespace Faisalcollinet\Wardrobe;
 
 use PDO;
 use PDOException;
+use Dotenv\Dotenv;
 
 class Db
 {
@@ -13,8 +14,19 @@ class Db
     {
         if (self::$conn === null) {
             try {
-                // Gebruik hier je Railway MySQL verbinding URL
-                self::$conn = new PDO('mysql:host=autorack.proxy.rlwy.net;port=25993;dbname=railway', 'root', 'rEMenFWNlLqJVQnbFQDCAeYrMuqaiYQB');
+                // Laad de .env bestand
+                $dotenv = Dotenv::createImmutable(__DIR__);
+                $dotenv->load();
+
+                // Verkrijg de database instellingen uit de .env
+                $host = $_ENV['DB_HOST'];
+                $port = $_ENV['DB_PORT'];
+                $dbname = $_ENV['DB_NAME'];
+                $user = $_ENV['DB_USER'];
+                $password = $_ENV['DB_PASSWORD'];
+
+                // Maak de verbinding
+                self::$conn = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $password);
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 die("Database connection failed: " . $e->getMessage());
