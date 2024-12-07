@@ -1,11 +1,9 @@
-/* Algemene reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Font loading */
 @font-face {
     font-family: metropolisBold;
     src: url(../assets/metropolis.extra-bold.otf);
@@ -16,7 +14,6 @@
     src: url(../assets/mononoki-Regular.otf);
 }
 
-/* Body */
 body {
     font-family: 'mononoki', monospace;
     background-color: #f4f4f4;
@@ -24,7 +21,6 @@ body {
     line-height: 1.6;
 }
 
-/* Navigatiebalk */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -58,7 +54,6 @@ body {
     color: #ffb84d;
 }
 
-/* Container voor dashboard */
 .dashboard-container {
     max-width: 1200px;
     margin: 20px auto;
@@ -68,7 +63,6 @@ body {
     border-radius: 8px;
 }
 
-/* Header */
 h2 {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -79,7 +73,6 @@ h3 {
     margin-bottom: 10px;
 }
 
-/* Producten tabel */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -105,7 +98,6 @@ table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Acties kolom */
 a {
     text-decoration: none;
     color: #333;
@@ -115,7 +107,6 @@ a:hover {
     color: #ffb84d;
 }
 
-/* Formulier voor toevoegen */
 form {
     display: grid;
     grid-gap: 15px;
@@ -150,7 +141,6 @@ form button:hover {
     background-color: #555;
 }
 
-/* Logout link */
 .logout {
     margin-top: 20px;
     text-align: center;
@@ -166,7 +156,6 @@ form button:hover {
     color: #ffb84d;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .dashboard-container {
         padding: 15px;

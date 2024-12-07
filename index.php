@@ -11,7 +11,7 @@ $user_id = $_SESSION['user_id'];
 
 require_once __DIR__ . '/classes/Clothing.php';
 require_once __DIR__ . '/classes/User.php';
-require_once __DIR__ . '/classes/ShoppingCart.php'; // Zorg ervoor dat ShoppingCart is ingeladen
+require_once __DIR__ . '/classes/ShoppingCart.php';
 
 $brands = Faisalcollinet\Wardrobe\Clothing::getAllBrands();
 
@@ -24,11 +24,9 @@ if (isset($_POST['brand']) && !empty($_POST['brand'])) {
 
 $userBalance = Faisalcollinet\Wardrobe\User::getUserBalance($user_id);
 
-// Haal het aantal items in de winkelwagen op
 $cartItemCount = \Faisalcollinet\Wardrobe\ShoppingCart::getInstance()->getItemCount();
-?>
 
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,6 +41,7 @@ $cartItemCount = \Faisalcollinet\Wardrobe\ShoppingCart::getInstance()->getItemCo
             <a href="change_password.php"><?php echo htmlspecialchars($firstname); ?></a>
             <span>€<?php echo number_format($userBalance, 2); ?></span>
             <a href="cart.php" class="cart-link">Cart (<?php echo $cartItemCount; ?>)</a>
+            <a href="orders.php">Orders</a>
             <a href="logout.php">Logout</a>
         </div>
     </div>

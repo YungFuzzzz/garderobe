@@ -1,34 +1,27 @@
 <?php
 require_once 'vendor/autoload.php';
-require_once 'classes/Db.php'; // Verbind de PDO-connectie
+require_once 'classes/Db.php';
 
 use Faisalcollinet\Wardrobe\User;
 
 $errorMessage = '';
 
-// Start de sessie aan het begin van het bestand
 session_start();
 
-// Als er een POST-verzoek is, probeer in te loggen
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Debug: controleer ingevulde waarden
-    var_dump($email, $password); // Debug: kijk wat de ingevulde waarden zijn
+    var_dump($email, $password);
 
-    // Probeer de login-methode aan te roepen
     if (User::login($email, $password)) {
-        // Login succesvol, maar de redirect gebeurt al in de login-methode
-        exit(); // Stop verder uitvoeren van de code
+        exit();
     } else {
-        // Foutmelding als inloggen niet lukt
         $errorMessage = "Invalid credentials.";
     }
 }
-?>
 
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

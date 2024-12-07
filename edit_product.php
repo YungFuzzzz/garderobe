@@ -12,18 +12,15 @@ $errors = [];
 $success_message = '';
 
 if ($id) {
-    // Haal het product op
     $product = \Faisalcollinet\Wardrobe\Clothing::getClothingById($id);
     
     if (!$product) {
-        // Als product niet bestaat
         $errors[] = "Product not found.";
     }
 } else {
     $errors[] = "Product ID is missing.";
 }
 
-// Verwerk het formulier bij indienen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $brand = $_POST['brand'] ?? '';
     $price = $_POST['price'] ?? '';
@@ -33,22 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $additional_description = $_POST['additional_description'] ?? '';
     $image = $_POST['image'] ?? '';
 
-    // Valideer invoer
     if (empty($brand) || empty($price) || empty($category) || empty($size) || empty($description) || empty($image)) {
         $errors[] = 'All fields are required.';
     }
 
     if (empty($errors)) {
-        // Update het product
         $update_success = \Faisalcollinet\Wardrobe\Clothing::updateClothing(
             $brand, $price, $category, $size, $description, $additional_description, $image, $id
         );
 
         if ($update_success) {
             $success_message = "Product updated successfully!";
-            // Redirect naar admin dashboard na succesvolle update
             header('Location: admin_dashboard.php');
-            exit(); // Zorg ervoor dat het script stopt na de redirect
+            exit();
         } else {
             $errors[] = "Error updating product.";
         }

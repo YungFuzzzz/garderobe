@@ -41,7 +41,6 @@ $subtotal = $shoppingCart->getSubtotal();
                 <h3>Total: €<?php echo number_format($subtotal, 2, ',', '.'); ?></h3>
             </div>
 
-            <!-- Voeg de 'Place Order' knop toe -->
             <form action="place_order.php" method="POST">
                 <button type="submit" class="place-order-btn">Place Order</button>
             </form>

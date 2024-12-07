@@ -8,13 +8,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 require_once __DIR__ . '/classes/Clothing.php';
 
-// Controleer of er een id is doorgegeven via de URL
 if (!isset($_GET['id'])) {
     header('Location: admin_dashboard.php');
     exit();
 }
 
-// Verkrijg het product dat je wilt verwijderen
 $product = \Faisalcollinet\Wardrobe\Clothing::getClothingById($_GET['id']);
 
 if (!$product) {
@@ -22,7 +20,6 @@ if (!$product) {
     exit();
 }
 
-// Verwijder het product als de gebruiker bevestigt
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = \Faisalcollinet\Wardrobe\Clothing::deleteClothing($_GET['id']);
 

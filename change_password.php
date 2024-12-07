@@ -1,39 +1,30 @@
 <?php
 session_start();
 
-// Als de gebruiker niet ingelogd is, doorsturen naar de login pagina
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
-// Verkrijg de gebruikersinformatie uit de sessie
 $user_id = $_SESSION['user_id'];
 $firstname = isset($_SESSION['firstname']) ? $_SESSION['firstname'] : 'Gast';
 $userBalance = isset($_SESSION['user_balance']) ? $_SESSION['user_balance'] : 0;
 $cartItemCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
-// Vereiste: Composer autoloader inladen
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Initialiseer fouten en succes berichten
 $error = '';
 $success = '';
 
-// Verwerk het formulier wanneer het is ingediend
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $current_password = $_POST['current_password'];
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Verkrijg de gebruiker uit de database
     $user = Faisalcollinet\Wardrobe\User::getUserDetails($user_id);
 
-    // Controleer of het huidige wachtwoord correct is
     if (password_verify($current_password, $user['password'])) {
-        // Controleer of het nieuwe wachtwoord overeenkomt met de bevestiging
         if ($new_password === $confirm_password) {
-            // Wachtwoord bijwerken in de database
             $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
             Faisalcollinet\Wardrobe\User::updatePassword($user_id, $hashed_new_password);
             $success = 'Wachtwoord succesvol bijgewerkt!';

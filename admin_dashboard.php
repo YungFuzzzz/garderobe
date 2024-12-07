@@ -11,7 +11,6 @@ require_once __DIR__ . '/classes/Clothing.php';
 $errors = [];
 $success_message = "";
 
-// Product toevoegen als het formulier wordt ingediend
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $brand = trim($_POST['brand']);
     $price = floatval($_POST['price']);
@@ -21,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $additional_description = trim($_POST['additional_description']);
     $image = trim($_POST['image']);
 
-    // Validatie
     if (empty($brand)) $errors[] = "Brand is required.";
     if ($price <= 0 || !is_numeric($price)) $errors[] = "Price must be a positive number.";
     if (empty($category)) $errors[] = "Category is required.";
@@ -30,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($additional_description)) $errors[] = "Additional description is required.";
     if (empty($image) || !filter_var($image, FILTER_VALIDATE_URL)) $errors[] = "A valid image URL is required.";
 
-    // Als er geen fouten zijn, voeg het product toe
     if (empty($errors)) {
         $result = \Faisalcollinet\Wardrobe\Clothing::addClothing(
             $brand, $price, $category, $size, $description, $additional_description, $image
@@ -43,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Haal alle producten op voor weergave
 $clothingItems = \Faisalcollinet\Wardrobe\Clothing::getAllClothing();
 ?>
 
@@ -68,7 +64,6 @@ $clothingItems = \Faisalcollinet\Wardrobe\Clothing::getAllClothing();
     <div class="dashboard-container">
         <h2>Manage Products</h2>
 
-        <!-- Tabel met bestaande producten -->
         <table>
             <thead>
                 <tr>
@@ -97,7 +92,6 @@ $clothingItems = \Faisalcollinet\Wardrobe\Clothing::getAllClothing();
             </tbody>
         </table>
 
-        <!-- Product toevoegen -->
         <h3>Add New Product</h3>
         <?php if (!empty($errors)): ?>
             <ul class="error-messages">

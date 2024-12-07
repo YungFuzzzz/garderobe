@@ -4,14 +4,12 @@ namespace Faisalcollinet\Wardrobe;
 require_once __DIR__ . '/Db.php';
 
 class Clothing {
-    // Haal alle kledingitems op
     public static function getAllClothing() {
         $stmt = Db::getConnection()->prepare("SELECT * FROM products");
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Haal kleding op basis van merk
     public static function getAllClothingByBrand($brand) {
         $pdo = Db::getConnection();
         $sql = "SELECT * FROM products WHERE brand = :brand";
@@ -21,7 +19,6 @@ class Clothing {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Haal alle unieke merken op
     public static function getAllBrands() {
         $pdo = Db::getConnection();
         $sql = "SELECT DISTINCT brand FROM products";
@@ -30,7 +27,6 @@ class Clothing {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Haal kleding op basis van ID
     public static function getClothingById($id) {
         $pdo = Db::getConnection();
         $sql = "SELECT * FROM products WHERE id = :id";
@@ -56,7 +52,6 @@ class Clothing {
     
         return $stmt->execute();
     }
-    // Werk een kledingitem bij, inclusief additional_description
     public static function updateClothing($brand, $price, $category, $size, $description, $additional_description, $image, $id) {
         $pdo = Db::getConnection();
         $sql = "UPDATE products 
@@ -65,7 +60,6 @@ class Clothing {
                 WHERE id = :id";
         $stmt = $pdo->prepare($sql);
     
-        // Bind de parameters
         $stmt->bindParam(':brand', $brand);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':category', $category);
@@ -75,12 +69,9 @@ class Clothing {
         $stmt->bindParam(':size', $size);
         $stmt->bindParam(':id', $id);
     
-    
-        // Voer de query uit
         return $stmt->execute();
     }
 
-    // Verwijder een kledingitem
     public static function deleteClothing($id) {
         $pdo = Db::getConnection();
         $sql = "DELETE FROM products WHERE id = :id";
