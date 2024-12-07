@@ -1,9 +1,6 @@
 # Node modules (als je met Node werkt)
 node_modules/
 
-# Composer dependency folder
-/vendor/
-
 # .env file voor gevoelige gegevens
 .env
 
