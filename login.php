@@ -4,20 +4,21 @@ require_once 'classes/Db.php';
 
 use Faisalcollinet\Wardrobe\User;
 
-$errorMessage = '';
-
+// Start de sessie bovenaan je bestand
 session_start();
+
+$errorMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Verwijder var_dump om uitvoer te voorkomen die headers verstoort
-    // var_dump($email, $password); // Verwijder deze regel
+    // Verwijder var_dump() en andere uitvoer
+    // var_dump($email, $password);  // Verwijder deze regel
 
     if (User::login($email, $password)) {
         // Redirect naar de juiste pagina (index.php bijvoorbeeld)
-        header('Location: index.php'); // Of naar een dashboard als je dat hebt
+        header('Location: index.php');
         exit();
     } else {
         $errorMessage = "Invalid credentials.";
