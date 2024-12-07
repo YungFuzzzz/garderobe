@@ -12,9 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    var_dump($email, $password);
+    // Verwijder var_dump om uitvoer te voorkomen die headers verstoort
+    // var_dump($email, $password); // Verwijder deze regel
 
     if (User::login($email, $password)) {
+        // Redirect naar de juiste pagina (index.php bijvoorbeeld)
+        header('Location: index.php'); // Of naar een dashboard als je dat hebt
         exit();
     } else {
         $errorMessage = "Invalid credentials.";
