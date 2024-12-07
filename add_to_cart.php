@@ -1,20 +1,20 @@
 <?php
 session_start();
 
-// Controleer of de winkelwagen nog niet is geïnitieerd
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = []; // Maak een lege winkelwagen als deze nog niet bestaat
+require_once __DIR__ . '/classes/ShoppingCart.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
 }
 
-// Haal het item ID uit het POST-verzoek
+$userId = $_SESSION['user_id'];
 $itemId = $_POST['item_id'] ?? null;
 
-// Voeg het item toe aan de winkelwagen als het ID geldig is
 if ($itemId) {
-    $_SESSION['cart'][] = $itemId; // Voeg het item ID toe aan de winkelwagen
+    $shoppingCart = \Faisalcollinet\Wardrobe\ShoppingCart::getInstance();
+    $shoppingCart->addItem($userId, $itemId);
+    header('Location: index.php');
+    exit();
 }
-
-// Redirect terug naar de indexpagina (of naar een andere pagina naar keuze)
-header('Location: index.php');
-exit();
 ?>
