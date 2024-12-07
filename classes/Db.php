@@ -6,7 +6,7 @@ use PDO;
 use PDOException;
 
 // Zorg ervoor dat je de loadEnv functie inlaadt
-require_once __DIR__ . '/../loadEnv.php';  // Dit pad is naar het bestand loadEnv.php in de root
+require_once __DIR__ . '/../loadEnv.php';  // Dit pad verwijst naar het bestand loadEnv.php in de root van je project
 
 class Db
 {
