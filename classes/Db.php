@@ -5,7 +5,7 @@ namespace Faisalcollinet\Wardrobe;
 use PDO;
 use PDOException;
 
-require_once __DIR__ . '/../loadEnv.php';
+require_once __DIR__ . '/../loadEnv.php';  // Laadt loadEnv.php vanuit de root
 
 class Db
 {
@@ -15,8 +15,8 @@ class Db
     {
         if (self::$conn === null) {
             try {
-                $envFilePath = __DIR__ . '/../.env'; // Het bestand staat in de root van je project
-                loadEnv($envFilePath);  // Laad de variabelen uit het .env bestand
+                // Laad het .env bestand vanuit de root directory
+                loadEnv(__DIR__ . '/../.env');  // Dit gaat omhoog naar de root en zoekt .env bestand
 
                 // Verkrijg de database instellingen uit de $_ENV variabelen
                 $host = $_ENV['DB_HOST'];

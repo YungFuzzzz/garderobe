@@ -2,8 +2,11 @@
 
 function loadEnv($path)
 {
+    // Debugging: Toon het pad dat we gebruiken
+    echo "Looking for .env at path: " . $path . "\n";  // Dit toont het pad waar we zoeken naar .env
+
     if (!file_exists($path)) {
-        die("Env file not found.");
+        die("Env file not found at: " . $path);  // Foutmelding met het pad naar het .env bestand
     }
 
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);  // Lees het bestand regel per regel
