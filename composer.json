@@ -10,8 +10,5 @@
             "name": "FUZZZ",
             "email": "147380081+YungFuzzzz@users.noreply.github.com"
         }
-    ],
-    "require": {
-        "vlucas/phpdotenv": "^5.6"
-    }
+    ]
 }
