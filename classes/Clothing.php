@@ -11,17 +11,32 @@ class Clothing {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Nieuwe methode om kleding op te halen op basis van een specifiek ID
+    // Methode om kleding op te halen op basis van merk
+    public static function getAllClothingByBrand($brand) {
+        $pdo = Db::getConnection();
+        $sql = "SELECT * FROM products WHERE brand = :brand";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':brand', $brand);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    // Methode om unieke merken op te halen
+    public static function getAllBrands() {
+        $pdo = Db::getConnection();
+        $sql = "SELECT DISTINCT brand FROM products";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    // Methode om kleding op te halen op basis van ID
     public static function getClothingById($id) {
         $pdo = Db::getConnection();
-
-        // Query om kleding op te halen met het gegeven ID
         $sql = "SELECT * FROM products WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-
-        // Retourneer het kledingitem
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 }
