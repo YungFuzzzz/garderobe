@@ -40,37 +40,43 @@ class Clothing {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    // Voeg een nieuw kledingitem toe
-    public static function addClothing($brand, $price, $category, $description, $image, $size) {
+    public static function addClothing($brand, $price, $category, $size, $description, $additional_description, $image) {
         $pdo = Db::getConnection();
-        $sql = "INSERT INTO products (brand, price, category, description, image, size) 
-                VALUES (:brand, :price, :category, :description, :image, :size)";
+        $sql = "INSERT INTO products (brand, description, size, price, image, category, additional_description) 
+                VALUES (:brand, :description, :size, :price, :image, :category, :additional_description)";
         $stmt = $pdo->prepare($sql);
+    
         $stmt->bindParam(':brand', $brand);
-        $stmt->bindParam(':price', $price);
-        $stmt->bindParam(':category', $category);
         $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':image', $image);
         $stmt->bindParam(':size', $size);
-        
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':category', $category);
+        $stmt->bindParam(':additional_description', $additional_description);
+    
         return $stmt->execute();
     }
-
-    // Werk een kledingitem bij
-    public static function updateClothing($id, $brand, $price, $category, $description, $image, $size) {
+    // Werk een kledingitem bij, inclusief additional_description
+    public static function updateClothing($brand, $price, $category, $size, $description, $additional_description, $image, $id) {
         $pdo = Db::getConnection();
         $sql = "UPDATE products 
-                SET brand = :brand, price = :price, category = :category, description = :description, image = :image, size = :size
+                SET brand = :brand, price = :price, category = :category, description = :description, 
+                    additional_description = :additional_description, image = :image, size = :size
                 WHERE id = :id";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':id', $id);
+    
+        // Bind de parameters
         $stmt->bindParam(':brand', $brand);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':category', $category);
         $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':additional_description', $additional_description);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':size', $size);
-
+        $stmt->bindParam(':id', $id);
+    
+    
+        // Voer de query uit
         return $stmt->execute();
     }
 

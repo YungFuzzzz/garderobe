@@ -1,46 +1,60 @@
 <?php
 session_start();
+require_once __DIR__ . '/classes/Clothing.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: login.php');
     exit();
 }
 
-require_once __DIR__ . '/classes/Clothing.php';
+$id = $_GET['id'] ?? null;
+$errors = [];
+$success_message = '';
 
-// Verkrijg het product op basis van de ID
-if (!isset($_GET['id'])) {
-    header('Location: admin_dashboard.php');
-    exit();
+if ($id) {
+    // Haal het product op
+    $product = \Faisalcollinet\Wardrobe\Clothing::getClothingById($id);
+    
+    if (!$product) {
+        // Als product niet bestaat
+        $errors[] = "Product not found.";
+    }
+} else {
+    $errors[] = "Product ID is missing.";
 }
 
-$product = \Faisalcollinet\Wardrobe\Clothing::getClothingById($_GET['id']);
-
-if (!$product) {
-    echo "Product not found!";
-    exit();
-}
-
+// Verwerk het formulier bij indienen
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verkrijg de bijgewerkte gegevens
-    $id = $_GET['id'];
-    $brand = $_POST['brand'];
-    $price = $_POST['price'];
-    $category = $_POST['category'];
-    $size = $_POST['size'];
-    $description = $_POST['description'];
-    $image = $_POST['image'];
+    $brand = $_POST['brand'] ?? '';
+    $price = $_POST['price'] ?? '';
+    $category = $_POST['category'] ?? '';
+    $size = $_POST['size'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $additional_description = $_POST['additional_description'] ?? '';
+    $image = $_POST['image'] ?? '';
 
-    // Werk het product bij
-    $result = \Faisalcollinet\Wardrobe\Clothing::updateClothing($id, $brand, $price, $category, $description, $image, $size);
+    // Valideer invoer
+    if (empty($brand) || empty($price) || empty($category) || empty($size) || empty($description) || empty($image)) {
+        $errors[] = 'All fields are required.';
+    }
 
-    if ($result) {
-        header('Location: admin_dashboard.php');
-        exit();
-    } else {
-        echo "Error updating product!";
+    if (empty($errors)) {
+        // Update het product
+        $update_success = \Faisalcollinet\Wardrobe\Clothing::updateClothing(
+            $brand, $price, $category, $size, $description, $additional_description, $image, $id
+        );
+
+        if ($update_success) {
+            $success_message = "Product updated successfully!";
+            // Redirect naar admin dashboard na succesvolle update
+            header('Location: admin_dashboard.php');
+            exit(); // Zorg ervoor dat het script stopt na de redirect
+        } else {
+            $errors[] = "Error updating product.";
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -50,16 +64,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
     <link rel="stylesheet" href="./css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mononoki&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="navbar">
+        <div class="logo">Admin Dashboard</div>
+        <div class="user-info">
+            <span>Welcome, <?php echo htmlspecialchars($_SESSION['firstname']); ?>!</span>
+            <a href="logout.php">Logout</a>
+        </div>
+    </div>
+
     <div class="dashboard-container">
         <h2>Edit Product</h2>
+
+        <?php if (!empty($errors)): ?>
+            <ul class="error-messages">
+                <?php foreach ($errors as $error): ?>
+                    <li><?php echo htmlspecialchars($error); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        
+        <?php if (!empty($success_message)): ?>
+            <p class="success-message"><?php echo htmlspecialchars($success_message); ?></p>
+        <?php endif; ?>
+
+        <!-- Formulier voor bewerken van product -->
         <form action="edit_product.php?id=<?php echo $product['id']; ?>" method="post">
             <label for="brand">Brand</label>
             <input type="text" name="brand" value="<?php echo htmlspecialchars($product['brand']); ?>" required><br>
 
             <label for="price">Price</label>
-            <input type="number" name="price" value="<?php echo htmlspecialchars($product['price']); ?>" required><br>
+            <input type="number" step="0.01" name="price" value="<?php echo htmlspecialchars($product['price']); ?>" required><br>
 
             <label for="category">Category</label>
             <input type="text" name="category" value="<?php echo htmlspecialchars($product['category']); ?>" required><br>
@@ -70,11 +107,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="description">Description</label>
             <textarea name="description" required><?php echo htmlspecialchars($product['description']); ?></textarea><br>
 
+            <label for="additional_description">Additional Description</label>
+            <textarea name="additional_description"><?php echo htmlspecialchars($product['additional_description']); ?></textarea><br>
+
             <label for="image">Image URL</label>
             <input type="text" name="image" value="<?php echo htmlspecialchars($product['image']); ?>" required><br>
 
             <button type="submit">Update Product</button>
         </form>
+
+        <div class="logout">
+            <a href="logout.php">Logout</a>
+        </div>
     </div>
 </body>
 </html>

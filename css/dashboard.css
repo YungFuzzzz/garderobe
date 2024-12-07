@@ -5,12 +5,57 @@
     box-sizing: border-box;
 }
 
+/* Font loading */
+@font-face {
+    font-family: metropolisBold;
+    src: url(../assets/metropolis.extra-bold.otf);
+}
+
+@font-face {
+    font-family: mononoki;
+    src: url(../assets/mononoki-Regular.otf);
+}
+
 /* Body */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'mononoki', monospace;
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
+}
+
+/* Navigatiebalk */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 15px;
+    color: white;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .user-info span {
+    margin-right: 15px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.navbar a:hover {
+    color: #ffb84d;
 }
 
 /* Container voor dashboard */
@@ -67,7 +112,7 @@ a {
 }
 
 a:hover {
-    color: #000;
+    color: #ffb84d;
 }
 
 /* Formulier voor toevoegen */
@@ -118,7 +163,7 @@ form button:hover {
 }
 
 .logout a:hover {
-    color: #000;
+    color: #ffb84d;
 }
 
 /* Responsive design */
