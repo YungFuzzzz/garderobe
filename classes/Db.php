@@ -15,7 +15,7 @@ class Db
         if (self::$conn === null) {
             try {
                 // Laad de .env bestand vanuit de root directory
-                $dotenv = Dotenv::createImmutable(__DIR__ . '/../');  // Dit gaat één niveau omhoog naar de root van je project.
+                $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');  // Dit gaat twee niveaus omhoog naar de root van je project.
                 $dotenv->load();
 
                 // Verkrijg de database instellingen uit de .env
