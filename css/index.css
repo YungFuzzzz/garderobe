@@ -1,155 +1,148 @@
-/* Basis styling voor de kledingitems */
-.clothing-items {
+@font-face {
+    font-family: metropolisBold;
+    src: url(../assets/metropolis.extra-bold.otf);
+}
+
+@font-face {
+    font-family: mononoki;
+    src: url(../assets/mononoki-Regular.otf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: 'Arial', sans-serif;
+    height: 100%;
+    background-color: #f4f7fa;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #333;
+    color: #fff;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-family: metropolisBold;
+}
+
+.navbar .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .user-info a {
+    margin-right: 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar .user-info a:hover {
+    color: #89CC04;
+}
+
+.navbar .user-info span {
+    color: #fff;
+    margin-right: 15px;
+}
+
+.navbar .cart-link {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+.navbar .cart-link:hover {
+    color: #89CC04;
+}
+
+.filter-container {
+    margin: 30px auto;
+    text-align: center;
+}
+
+.sort-form {
+    display: inline-block;
+}
+
+.sort-form select, .sort-form button {
+    padding: 10px;
+    font-size: 16px;
+    margin: 0 10px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+}
+
+.sort-form button {
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.sort-form button:hover {
+    background-color: #89CC04;
+}
+
+.clothing-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
 }
 
 .items-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    justify-content: center;
+    padding: 20px;
 }
 
 .item {
+    background-color: #fff;
     border: 1px solid #ddd;
     padding: 15px;
-    background: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
     text-align: center;
-    flex: 1 1 calc(25% - 20px);
-    max-width: 200px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 1024px) {
-    .item {
-        flex: 1 1 calc(33.333% - 20px);
-    }
-}
-
-@media (max-width: 768px) {
-    .item {
-        flex: 1 1 calc(50% - 20px);
-    }
-}
-
-@media (max-width: 480px) {
-    .item {
-        flex: 1 1 calc(100% - 20px);
-    }
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .item img {
     width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
 }
 
 .item h4 {
-    margin: 10px 0;
     font-size: 18px;
-    color: #333;
+    margin: 10px 0;
+    font-family: metropolisBold;
 }
 
 .item p {
-    margin: 5px 0;
-    color: #666;
+    font-size: 16px;
 }
 
-/* Navigatiebalk styling */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #000; /* Zwarte achtergrond */
-    color: #fff; /* Witte tekst */
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.navbar .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #fff; /* Witte tekst */
-}
-
-.navbar .user-info {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.navbar .user-info span {
-    font-size: 1em;
-    color: #fff; /* Witte tekst */
-}
-
-.navbar a {
-    color: #fff; /* Witte tekst */
-    text-decoration: none;
-    font-size: 1em;
-    padding: 5px 10px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
-
-.navbar a:hover {
-    background-color: #555; /* Donkergrijze achtergrond bij hover */
-    border-color: #fff;
-}
-
-/* Winkelwagenknop */
 .add-to-cart-btn {
-    background-color: #000; /* Groene knop */
+    padding: 10px;
+    background-color: #333;
     color: #fff;
-    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 1em;
+    font-size: 14px;
+    width: 100%;
     margin-top: 10px;
-    display: inline-block;
 }
 
 .add-to-cart-btn:hover {
-    text-decoration: underline;
-}
-
-/* Sorteren formulier */
-.sort-form {
-    display: flex;
-    justify-content: flex-start;
-    margin: 20px 0;
-}
-
-#brand {
-    padding: 8px 15px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 1em;
-    margin-right: 20px;
-    background-color: #fff;
-    transition: all 0.3s ease;
-}
-
-#brand:hover {
-    border-color: #888;
-}
-
-.sorter-btn {
-    padding: 10px 15px;
-    background-color: #000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.sorter-btn:hover {
-    background-color: #555;
+    background-color: #89CC04;
 }

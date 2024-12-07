@@ -46,7 +46,7 @@ $cartItemCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <div class="navbar">
         <div class="logo">Garderobe</div>
         <div class="user-info">
-            <span><?php echo htmlspecialchars($firstname); ?></span>
+            <a href="change_password.php"><?php echo htmlspecialchars($firstname); ?></a>
             <span>€<?php echo number_format($userBalance, 2); ?></span>
             
             <!-- Toevoegen van de Cart -->
@@ -57,18 +57,20 @@ $cartItemCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     </div>
 
     <!-- Sorteren Formulier -->
-    <form action="index.php" method="POST" class="sort-form">
-        <select name="brand" id="brand">
-            <option value="">Selecteer Merk</option>
-            <?php foreach ($brands as $brand): ?>
-                <option value="<?php echo htmlspecialchars($brand['brand']); ?>">
-                    <?php echo htmlspecialchars($brand['brand']); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+    <div class="filter-container">
+        <form action="index.php" method="POST" class="sort-form">
+            <select name="brand" id="brand">
+                <option value="">Selecteer Merk</option>
+                <?php foreach ($brands as $brand): ?>
+                    <option value="<?php echo htmlspecialchars($brand['brand']); ?>">
+                        <?php echo htmlspecialchars($brand['brand']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-        <button type="submit" class="sorter-btn">Filteren</button>
-    </form>
+            <button type="submit" class="sorter-btn">Filteren</button>
+        </form>
+    </div>
 
     <!-- Kledingitems -->
     <div class="clothing-items">
@@ -91,5 +93,6 @@ $cartItemCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
             <?php endforeach; ?>
         </div>
     </div>
+
 </body>
 </html>

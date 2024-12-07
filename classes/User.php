@@ -97,5 +97,17 @@ class User
         $stmt->execute(['user_id' => $userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    // Update het wachtwoord van een gebruiker
+    public static function updatePassword($userId, $newPassword)
+    {
+        $pdo = Db::getConnection();
+
+        // Update het wachtwoord in de database
+        $stmt = $pdo->prepare("UPDATE users SET password = :password WHERE id = :user_id");
+        $stmt->execute(['password' => $newPassword, 'user_id' => $userId]);
+
+        return true; // Return true als de update geslaagd is
+    }
 }
 ?>
