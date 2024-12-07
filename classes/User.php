@@ -109,5 +109,16 @@ class User
 
         return true; // Return true als de update geslaagd is
     }
+
+    // Haal een gebruiker op basis van hun ID
+    public static function getUserById($id)
+    {
+        $pdo = Db::getConnection();
+        
+        // Haal de gebruiker op uit de database
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

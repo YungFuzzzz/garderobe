@@ -97,3 +97,19 @@ h2 {
 .checkout-btn:hover {
     background-color: #45a049;
 }
+
+.place-order-btn {
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    padding: 15px 32px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.place-order-btn:hover {
+    background-color: #45a049;
+}
