@@ -5,7 +5,7 @@ namespace Faisalcollinet\Wardrobe;
 use PDO;
 use PDOException;
 
-require_once __DIR__ . '/../loadEnv.php';  // Laad de loadEnv functie vanuit de root van je project
+require_once __DIR__ . '/../loadEnv.php';  // Dit laad de loadEnv functie vanuit de root van je project
 
 class Db
 {
@@ -15,8 +15,14 @@ class Db
     {
         if (self::$conn === null) {
             try {
-                // Laad het .env bestand met een hardcoded pad naar '/app/.env'
-                loadEnv('/app/.env');  // Gebruik '/app/.env' voor Railway om het bestand te vinden
+                // Bepaal het pad naar het .env bestand op basis van de omgeving
+                $envPath = '/app/.env';  // Standaard pad voor Railway omgeving
+                if (isset($_ENV['RAILWAY_ENVIRONMENT_NAME']) && $_ENV['RAILWAY_ENVIRONMENT_NAME'] === 'production') {
+                    $envPath = '/workspace/.env';  // Probeer dit pad voor productieomgeving op Railway
+                }
+
+                // Laad het .env bestand
+                loadEnv($envPath);
 
                 // Verkrijg de database instellingen uit de $_ENV variabelen
                 $host = $_ENV['DB_HOST'];
